@@ -64,7 +64,6 @@ class JMXItemChecker extends ItemChecker
 			String conn = request.getString(JSON_TAG_CONN);
 			int port = request.getInt(JSON_TAG_PORT);
 
-			//Dirty solution for ZBXNEXT-1274
 			Integer remoting = new Integer("1209");
 			int retval = remoting.compareTo(port);
 
