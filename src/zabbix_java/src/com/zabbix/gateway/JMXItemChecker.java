@@ -54,10 +54,28 @@ class JMXItemChecker extends ItemChecker
 
 		try
 		{
+			/*String conn = request.getString(JSON_TAG_CONN);
+			  int port = request.getInt(JSON_TAG_PORT);
+
+			  url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + conn + ":" + port + "/jmxrmi");
+			  jmxc = null;
+			  mbsc = null;*/
+
 			String conn = request.getString(JSON_TAG_CONN);
 			int port = request.getInt(JSON_TAG_PORT);
 
-			url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + conn + ":" + port + "/jmxrmi");
+			//Dirty solution for ZBXNEXT-1274
+			Integer remoting = new Integer("1209");
+			int retval = remoting.compareTo(port);
+
+			if (retval == 0)
+			{
+				url = new JMXServiceURL("service:jmx:remoting-jmx://" + conn + ":" + port);
+			}
+			else
+			{
+				url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + conn + ":" + port + "/jmxrmi");
+			}
 			jmxc = null;
 			mbsc = null;
 
